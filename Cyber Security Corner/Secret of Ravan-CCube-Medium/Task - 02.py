@@ -1,26 +1,20 @@
 import pyzipper
-import string
+characters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '-', '+', '=', '{', '}', '[', ']', '|', ';', ':', '"', "'", '<', '>', '?', ',', '.', '/', '`', '~']
+known_password_dict = {'n':1, '_':2, '^':3, '`':5, 'W':6,'5':8}
 
-def brute_force(string, characters):
-  for character in characters:
-    new_string = string.replace("{*}", character)
-    if new_string.isalnum():
-      return character
-  return None
+known=list(known_password_dict)
+known.insert(3,'')
+known.insert(6,'')
 
-
-if __name__ == "__main__":
-  str = "n_^{*}`W{*}5"
-  characters = list(string.ascii_letters + string.digits)
-  missing_character = brute_force(str, characters)
-  if missing_character is not None:
-    print(f"The missing character is '{missing_character}'")
-  else:
-    print("The missing character cannot be found.")
-
-
-    '''
-    with pyzipper.AESZipFile("The_secret.zip") as f:
-                f.pwd = 
-
-    '''
+for i in characters:
+    known[3]=i
+    for j in  characters :
+        known[6]=j
+        pw = ''.join(known)
+        file_name = 'Cyber Security Corner\Secret of Ravan-CCube-Medium\The_secret.zip'
+        try:
+            with pyzipper.AESZipFile(file_name) as f:
+                f.extractall(path='Cyber Security Corner\Secret of Ravan-CCube-Medium', pwd = bytes(pw, 'utf-8'))
+                print("Correct password:",pw)
+        except :
+            print("failed:",pw)
